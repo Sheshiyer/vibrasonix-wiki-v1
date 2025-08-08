@@ -67,7 +67,7 @@ export function MobileNav({ items, className }: MobileNavProps) {
   return (
     <>
       {/* Mobile Navigation Button */}
-      <AnimatePresence>
+      <AnimatePresence key="mobile-nav-button">
         {isVisible && (
           <motion.button
             initial={{ y: -100, opacity: 0 }}
@@ -103,7 +103,7 @@ export function MobileNav({ items, className }: MobileNavProps) {
       </AnimatePresence>
 
       {/* Home and Search Buttons */}
-      <AnimatePresence>
+      <AnimatePresence key="mobile-nav-home-search">
         {isVisible && (
           <motion.div
             initial={{ y: -100, opacity: 0 }}
@@ -156,7 +156,7 @@ export function MobileNav({ items, className }: MobileNavProps) {
       </AnimatePresence>
 
       {/* Mobile Menu Overlay */}
-      <AnimatePresence>
+      <AnimatePresence key="mobile-nav-overlay">
         {isOpen && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -201,7 +201,7 @@ export function MobileNav({ items, className }: MobileNavProps) {
                   
                   return (
                     <motion.div
-                      key={item.href}
+                      key={`mobile-nav-${index}-${item.href}`}
                       initial={{ x: 50, opacity: 0 }}
                       animate={{ x: 0, opacity: 1 }}
                       transition={{ delay: index * 0.1 }}

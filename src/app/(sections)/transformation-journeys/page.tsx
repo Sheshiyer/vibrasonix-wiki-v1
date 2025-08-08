@@ -158,7 +158,7 @@ export default async function TransformationJourneysPage() {
                     <p className="text-sm font-medium">Key Benefits:</p>
                     <ul className="text-sm text-muted-foreground space-y-1">
                       {journey.benefits.map((benefit, index) => (
-                        <li key={index}>• {benefit}</li>
+                        <li key={`${journey.title}-benefit-${index}-${benefit}`}>• {benefit}</li>
                       ))}
                     </ul>
                   </div>

@@ -44,7 +44,7 @@ export function FloatingNav({ items, className }: FloatingNavProps) {
   }, [lastScrollY]);
 
   return (
-    <AnimatePresence>
+    <AnimatePresence key="floating-nav-main">
       {isVisible && (
         <motion.nav
           initial={{ y: -100, opacity: 0 }}
@@ -123,6 +123,13 @@ interface FloatingTocProps {
 }
 
 export function FloatingToc({ items, className }: FloatingTocProps) {
+  // Debug: Check for duplicate IDs
+  const ids = items.map(item => item.id);
+  const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
+  if (duplicateIds.length > 0) {
+    console.warn('FloatingToc: Duplicate IDs found:', duplicateIds);
+  }
+  
   const [activeId, setActiveId] = useState<string>('');
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -170,7 +177,7 @@ export function FloatingToc({ items, className }: FloatingTocProps) {
         📋 Contents
       </motion.button>
       
-      <AnimatePresence>
+      <AnimatePresence key="floating-toc-expanded">
         {isExpanded && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
@@ -180,9 +187,9 @@ export function FloatingToc({ items, className }: FloatingTocProps) {
             className="border-t border-white/20"
           >
             <div className="max-h-96 overflow-y-auto p-2 space-y-1">
-              {items.map((item) => (
+              {items.map((item, index) => (
                 <motion.button
-                  key={item.id}
+                  key={`${item.id}-${index}`}
                   className={cn(
                     "w-full text-left px-3 py-2 rounded-lg text-sm transition-all",
                     "hover:bg-white/20",

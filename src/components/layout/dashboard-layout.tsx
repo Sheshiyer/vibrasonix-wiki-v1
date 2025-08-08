@@ -12,34 +12,44 @@ import { usePathname } from 'next/navigation';
 
 const sections = [
   {
-    title: 'Sonic Science',
+    title: '📚 Documentation Index',
+    href: '/documentation-index',
+    description: 'Comprehensive searchable documentation hub'
+  },
+  {
+    title: '🧠 Sonic Science',
     href: '/sonic-science',
     description: 'Scientific foundation behind sound therapy'
   },
   {
-    title: 'Experience Library',
+    title: '🛠️ Experience Library',
     href: '/experience-library',
     description: 'Curated collection of sound therapy protocols'
   },
   {
-    title: 'Transformation Journeys',
+    title: '🔮 Transformation Journeys',
     href: '/transformation-journeys',
     description: 'Narrative-driven paths with progress visualization'
   },
   {
-    title: 'Research Observatory',
+    title: '🔬 Research Observatory',
     href: '/research-observatory',
     description: 'Living library of evidence with interactive exploration'
   },
   {
-    title: 'Community Cosmos',
+    title: '💫 Community Cosmos',
     href: '/community-cosmos',
     description: 'Interactive social knowledge sharing space'
   },
   {
-    title: 'Sonic Lab',
+    title: '🧪 Sonic Lab',
     href: '/sonic-lab',
     description: 'Experimental zone for personalized exploration'
+  },
+  {
+    title: '💻 Code Examples',
+    href: '/code-examples',
+    description: 'Interactive code examples with syntax highlighting'
   }
 ];
 
@@ -62,7 +72,7 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen bg-background">
-      <LiquidBackground />
+      <LiquidBackground key="liquid-background" />
       
       {/* Desktop Floating Navigation */}
       <div className="hidden md:block">

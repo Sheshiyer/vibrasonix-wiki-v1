@@ -54,7 +54,7 @@ export function DashboardGrid() {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {sections.map((section, index) => (
         <motion.div
-          key={section.title}
+          key={`section-${index}-${section.title}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1 }}
@@ -68,8 +68,8 @@ export function DashboardGrid() {
               <h3 className="text-xl font-semibold mb-2">{section.title}</h3>
               <p className="text-sm text-muted-foreground mb-4">{section.description}</p>
               <div className="flex gap-2 flex-wrap">
-                {section.metrics.map(metric => (
-                  <span key={metric} className="text-xs bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm border border-white/30">
+                {section.metrics.map((metric, metricIndex) => (
+                  <span key={`${section.title}-metric-${metricIndex}-${metric}`} className="text-xs bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm border border-white/30">
                     {metric}
                   </span>
                 ))}

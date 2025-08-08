@@ -179,7 +179,7 @@ export default async function CommunityCosmosPage() {
                     <div className="flex items-center gap-3">
                       <Avatar className="h-10 w-10">
                         <AvatarImage src={discussion.avatar} />
-                        <AvatarFallback>{discussion.author.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                        <AvatarFallback>{discussion.author.split(' ').map((n, i) => n[0]).join('')}</AvatarFallback>
                       </Avatar>
                       <div>
                         <CardTitle className="text-lg">{discussion.title}</CardTitle>

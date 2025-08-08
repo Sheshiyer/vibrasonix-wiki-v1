@@ -47,7 +47,18 @@ export function SearchComponent({
   useEffect(() => {
     const saved = localStorage.getItem('vibrasonix-recent-searches');
     if (saved) {
-      setRecentSearches(JSON.parse(saved));
+      try {
+        const parsed = JSON.parse(saved);
+        // Filter out empty strings and ensure all items are valid strings
+        const validSearches = Array.isArray(parsed) 
+          ? parsed.filter(item => typeof item === 'string' && item.trim().length > 0)
+          : [];
+        setRecentSearches(validSearches);
+      } catch (error) {
+        // Clear invalid localStorage data
+        localStorage.removeItem('vibrasonix-recent-searches');
+        setRecentSearches([]);
+      }
     }
   }, []);
   
@@ -100,14 +111,15 @@ export function SearchComponent({
   
   // Handle search submission
   const handleSearch = (searchQuery: string) => {
-    if (!searchQuery.trim()) return;
+    const trimmedQuery = searchQuery.trim();
+    if (!trimmedQuery) return;
     
-    // Add to recent searches
-    const updated = [searchQuery, ...recentSearches.filter(s => s !== searchQuery)].slice(0, 5);
+    // Add to recent searches - ensure no duplicates and no empty strings
+    const updated = [trimmedQuery, ...recentSearches.filter(s => s !== trimmedQuery && s.trim().length > 0)].slice(0, 5);
     setRecentSearches(updated);
     localStorage.setItem('vibrasonix-recent-searches', JSON.stringify(updated));
     
-    setQuery(searchQuery);
+    setQuery(trimmedQuery);
     setIsOpen(false);
   };
   
@@ -209,7 +221,7 @@ export function SearchComponent({
       </div>
       
       {/* Search Results Dropdown */}
-      <AnimatePresence>
+      <AnimatePresence key="search-results-dropdown">
         {isOpen && (isLoading || results.length > 0 || suggestions.length > 0 || showPopular || showRecent) && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
@@ -280,7 +292,7 @@ export function SearchComponent({
                   const suggestionIndex = results.length + index;
                   return (
                     <button
-                      key={`suggestion-${index}-${suggestion}`}
+                      key={`suggestion-${index}-${suggestion || 'empty'}-${Date.now()}`}
                       onClick={() => handleSearch(suggestion)}
                       className={cn(
                         "w-full text-left p-3 rounded-lg transition-colors",
@@ -307,7 +319,7 @@ export function SearchComponent({
                   const recentIndex = results.length + suggestions.length + index;
                   return (
                     <button
-                      key={`recent-${index}-${recent}`}
+                      key={`recent-${index}-${recent || 'empty'}-${recentIndex}`}
                       onClick={() => handleSearch(recent)}
                       className={cn(
                         "w-full text-left p-3 rounded-lg transition-colors",
@@ -332,7 +344,7 @@ export function SearchComponent({
                 </div>
                 {popularSearches.map((popular, index) => (
                   <button
-                    key={`popular-${index}-${popular}`}
+                    key={`popular-${index}-${popular || 'empty'}-popular`}
                     onClick={() => handleSearch(popular)}
                     className={cn(
                       "w-full text-left p-3 rounded-lg transition-colors",

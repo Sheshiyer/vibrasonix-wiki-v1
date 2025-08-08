@@ -140,7 +140,7 @@ export function LiquidBackground() {
       <div className="absolute inset-0">
         {particles.map((particle, i) => (
           <motion.div
-            key={i}
+            key={`particle-${i}`}
             className="absolute bg-white/30 rounded-full"
             style={{
               width: `${particle.size}px`,

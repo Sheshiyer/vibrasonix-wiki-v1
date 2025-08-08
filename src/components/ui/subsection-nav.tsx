@@ -54,7 +54,7 @@ export function SubsectionNav({ section, items, className }: SubsectionNavProps)
   }, [pathname, items]);
 
   return (
-    <AnimatePresence>
+    <AnimatePresence key="subsection-nav-main">
       {isVisible && (
         <motion.div
           initial={{ y: -100, opacity: 0 }}
@@ -94,7 +94,7 @@ export function SubsectionNav({ section, items, className }: SubsectionNavProps)
           </motion.button>
 
           {/* Subsection Pills */}
-          <AnimatePresence>
+          <AnimatePresence key="subsection-nav-pills">
             {isExpanded && (
               <motion.div
                 initial={{ height: 0, opacity: 0 }}

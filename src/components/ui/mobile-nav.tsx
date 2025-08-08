@@ -8,6 +8,8 @@ import { usePathname } from "next/navigation";
 import { Menu, X, Home, Search } from "lucide-react";
 import { smoothScrollToTop } from "@/lib/smooth-scroll";
 import { SearchModal, useSearchModal } from "@/components/ui/search-wrapper";
+import { ThemeToggleCompact } from "@/components/ui/theme-toggle";
+import { SettingsTriggerCompact } from "@/components/ui/settings-trigger";
 
 interface NavItem {
   title: string;
@@ -134,6 +136,12 @@ export function MobileNav({ items, className }: MobileNavProps) {
                 <span className="text-xs font-medium text-white">🏠 Home</span>
               </motion.div>
             </Link>
+            
+            {/* Theme Toggle */}
+            <ThemeToggleCompact className="shadow-2xl" />
+            
+            {/* Settings Trigger */}
+            <SettingsTriggerCompact />
             
             {/* Search Button */}
             <motion.button

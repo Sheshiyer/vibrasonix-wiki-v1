@@ -7,6 +7,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { smoothScrollToTop, smoothScrollToSection } from "@/lib/smooth-scroll";
 import { SearchTrigger, SearchModal, useSearchModal } from "@/components/ui/search-wrapper";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { SettingsTrigger } from "@/components/ui/settings-trigger";
 
 interface NavItem {
   title: string;
@@ -94,6 +96,12 @@ export function FloatingNav({ items, className }: FloatingNavProps) {
                 </Link>
               );
             })}
+            
+            {/* Theme Toggle */}
+            <ThemeToggle className="mx-1" />
+            
+            {/* Settings Trigger */}
+            <SettingsTrigger />
             
             {/* Search Trigger */}
             <SearchTrigger 

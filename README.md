@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vibrasonix Knowledge Hub
 
-## Getting Started
+This directory contains the Vibrasonix Knowledge Hub, a dashboard-driven wiki experience for exploring sound therapy concepts, protocols, research, and community insights.
 
-First, run the development server:
+## Directory Structure
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The Knowledge Hub is organized into six main sections, each with its own subdirectory:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **sonic-science/**: Scientific foundation behind sound therapy
+- **experience-library/**: Curated collection of sound therapy protocols
+- **transformation-journeys/**: Narrative-driven paths with progress visualization
+- **research-observatory/**: Living library of evidence with interactive exploration
+- **community-cosmos/**: Interactive social knowledge sharing space
+- **sonic-lab/**: Experimental zone for personalized exploration
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Key Files
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **index.md**: Main landing page and dashboard for the Knowledge Hub
+- **about.md**: Information about the purpose and structure of the Knowledge Hub
+- **contribute.md**: Guidelines for contributing to the Knowledge Hub
 
-## Learn More
+## Implementation Notes
 
-To learn more about Next.js, take a look at the following resources:
+This Knowledge Hub is implemented using markdown files with embedded HTML for layout and styling. In a production environment, these files would be enhanced with:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- CSS styling for the dashboard components and visualizations
+- JavaScript interactivity for the tools, calculators, and dynamic elements
+- Data visualization libraries for the charts, graphs, and interactive displays
+- User authentication for personalized content and progress tracking
+- Database integration for community features and user-generated content
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Development
 
-## Deploy on Vercel
+To work with this Knowledge Hub locally:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Clone the repository
+2. Use a markdown previewer that supports HTML (like VS Code with the Markdown Preview Enhanced extension)
+3. Navigate to `index.md` to start exploring the hub
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Production Deployment
+
+For production deployment, these markdown files can be:
+
+1. Processed by a static site generator (like Jekyll, Hugo, or Next.js)
+2. Enhanced with CSS and JavaScript for interactivity
+3. Deployed to a web server or hosting platform
+
+## Contact
+
+For questions or feedback about the Vibrasonix Knowledge Hub:
+
+- **Email**: knowledge@vibrasonix.com
+- **GitHub**: [github.com/vibrasonix/knowledge-hub](https://github.com/vibrasonix/knowledge-hub)

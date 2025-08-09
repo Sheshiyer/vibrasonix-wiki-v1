@@ -1,4 +1,4 @@
-<div style={{textAlign: "center"}}>
+<div style="text-align: center;">
   <h1>Neuroscience Navigator</h1>
   <p><em>Understand how sound therapy affects your brain and nervous system</em></p>
 </div>

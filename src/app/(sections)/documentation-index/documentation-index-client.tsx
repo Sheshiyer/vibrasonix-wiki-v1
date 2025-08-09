@@ -198,7 +198,7 @@ export function DocumentationIndexClient({ docs }: DocumentationIndexClientProps
 
   const renderDocCard = (doc: DocItem) => {
     const baseCard = (
-      <GlassCard key={doc.id} className="h-full">
+      <GlassCard className="h-full">
         <div className="p-6 h-full flex flex-col">
           <div className="flex items-start justify-between mb-3">
             <div className="flex gap-2">
@@ -218,8 +218,8 @@ export function DocumentationIndexClient({ docs }: DocumentationIndexClientProps
           
           <div className="space-y-3">
             <div className="flex flex-wrap gap-1">
-              {doc.tags.slice(0, 3).map((tag, index) => (
-                <Badge key={index} variant="outline" className="text-xs">
+              {doc.tags.slice(0, 3).map((tag) => (
+                <Badge key={`${doc.id}-${tag}`} variant="outline" className="text-xs">
                   {tag}
                 </Badge>
               ))}
@@ -243,7 +243,7 @@ export function DocumentationIndexClient({ docs }: DocumentationIndexClientProps
               </div>
               <div className="flex items-center gap-1">
                 <Calendar className="h-3 w-3" />
-                {new Date(doc.date).toLocaleDateString()}
+                {doc.date}
               </div>
             </div>
           </div>
@@ -252,14 +252,14 @@ export function DocumentationIndexClient({ docs }: DocumentationIndexClientProps
     );
 
     return (
-      <Link key={doc.id} href={`/docs/${doc.slug}`} className="block h-full">
+      <Link key={doc.id} href={`/${doc.slug}`} className="block h-full">
         {baseCard}
       </Link>
     );
   };
 
   const renderListItem = (doc: DocItem) => (
-    <Link key={doc.id} href={`/docs/${doc.slug}`} className="block">
+    <Link href={`/${doc.slug}`} className="block">
       <GlassCard className="mb-4">
         <div className="p-4">
           <div className="flex items-start justify-between">
@@ -277,8 +277,8 @@ export function DocumentationIndexClient({ docs }: DocumentationIndexClientProps
                 {doc.description}
               </p>
               <div className="flex flex-wrap gap-1 mb-2">
-                {doc.tags.slice(0, 5).map((tag, index) => (
-                  <Badge key={index} variant="outline" className="text-xs">
+                {doc.tags.slice(0, 5).map((tag) => (
+                  <Badge key={`${doc.id}-${tag}`} variant="outline" className="text-xs">
                     {tag}
                   </Badge>
                 ))}
@@ -295,7 +295,7 @@ export function DocumentationIndexClient({ docs }: DocumentationIndexClientProps
               </div>
               <div className="flex items-center gap-1">
                 <Calendar className="h-3 w-3" />
-                {new Date(doc.date).toLocaleDateString()}
+                {doc.date}
               </div>
             </div>
           </div>
@@ -402,20 +402,24 @@ export function DocumentationIndexClient({ docs }: DocumentationIndexClientProps
           >
             {selectedViewMode.value === 'grid' && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredAndSortedDocs.map(renderDocCard)}
+                {filteredAndSortedDocs.map((doc) => (
+                  <div key={doc.id}>{renderDocCard(doc)}</div>
+                ))}
               </div>
             )}
             
             {selectedViewMode.value === 'list' && (
               <div className="space-y-4">
-                {filteredAndSortedDocs.map(renderListItem)}
+                {filteredAndSortedDocs.map((doc) => (
+                  <div key={doc.id}>{renderListItem(doc)}</div>
+                ))}
               </div>
             )}
             
             {selectedViewMode.value === 'compact' && (
               <div className="space-y-2">
                 {filteredAndSortedDocs.map((doc) => (
-                  <Link key={doc.id} href={`/docs/${doc.slug}`} className="block">
+                  <Link key={doc.id} href={`/${doc.slug}`} className="block">
                     <div className="flex items-center justify-between p-3 rounded-lg border hover:bg-accent transition-colors">
                       <div className="flex items-center gap-3">
                         <div className="flex gap-1">
@@ -430,7 +434,7 @@ export function DocumentationIndexClient({ docs }: DocumentationIndexClientProps
                       </div>
                       <div className="flex items-center gap-4 text-xs text-muted-foreground">
                         <span>{doc.readTime}</span>
-                        <span>{new Date(doc.date).toLocaleDateString()}</span>
+                        <span>{doc.date}</span>
                       </div>
                     </div>
                   </Link>
@@ -450,7 +454,7 @@ export function DocumentationIndexClient({ docs }: DocumentationIndexClientProps
                         {index + 1}
                       </div>
                       <div className="flex-1">
-                        <Link href={`/docs/${doc.slug}`} className="block">
+                        <Link href={`/${doc.slug}`} className="block">
                           <GlassCard>
                             <div className="p-4">
                               <div className="flex items-start justify-between mb-2">
@@ -472,7 +476,7 @@ export function DocumentationIndexClient({ docs }: DocumentationIndexClientProps
                                   <span>{doc.author}</span>
                                   <span>{doc.readTime}</span>
                                 </div>
-                                <span>{new Date(doc.date).toLocaleDateString()}</span>
+                                <span>{doc.date}</span>
                               </div>
                             </div>
                           </GlassCard>

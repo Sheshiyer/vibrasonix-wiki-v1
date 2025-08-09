@@ -1,4 +1,4 @@
-<div style={{textAlign: "center"}}>
+<div style="text-align: center;">
   <h1>Community Cosmos</h1>
   <p><em>Interactive social knowledge sharing space</em></p>
 </div>

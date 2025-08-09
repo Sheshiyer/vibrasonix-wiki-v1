@@ -1,4 +1,4 @@
-<div style={{textAlign: "center"}}>
+<div style="text-align: center;">
   <h1>Technology Nexus</h1>
   <p><em>Discover the five core technologies that power the Vibrasonix experience</em></p>
 </div>

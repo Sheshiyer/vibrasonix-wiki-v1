@@ -1,4 +1,4 @@
-<div style={{textAlign: "center"}}>
+<div style="text-align: center;">
   <h1>Vibrasonix Knowledge Hub</h1>
   <p><em>Interactive exploration of sound therapy for sleep, focus, stress reduction, and meditation</em></p>
 </div>

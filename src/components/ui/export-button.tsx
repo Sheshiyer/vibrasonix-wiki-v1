@@ -11,7 +11,7 @@ import {
 import { ExportDialog } from "@/components/ui/export-dialog";
 import { Download, FileText, File, Globe, ChevronDown } from "lucide-react";
 import { useState } from "react";
-import { exportService } from "@/lib/export-service";
+import { exportDocument, exportBulk } from "@/app/actions/export";
 import { ExportOptions } from "@/types/export";
 
 interface ExportButtonProps {
@@ -85,7 +85,7 @@ export function ExportButton({
     setIsExporting(true);
     try {
       const options = QUICK_EXPORT_OPTIONS[format];
-      const result = await exportService.exportDocument(documentSlug!, options);
+      const result = await exportDocument(documentSlug!, options);
       
       if (result.success) {
         console.log(`${format.toUpperCase()} export completed successfully!`);
@@ -227,7 +227,7 @@ export function QuickExportButtons({
     setIsExporting(format);
     try {
       const options = QUICK_EXPORT_OPTIONS[format];
-      const result = await exportService.exportDocument(documentSlug, options);
+      const result = await exportDocument(documentSlug, options);
       
       if (result.success) {
         console.log(`${format.toUpperCase()} export completed successfully!`);

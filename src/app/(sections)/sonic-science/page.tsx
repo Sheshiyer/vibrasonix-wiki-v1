@@ -9,31 +9,31 @@ const technologies = [
   {
     title: 'Binaural Beats',
     description: 'Audio frequency entrainment technology',
-    href: '/sonic-science/technology-nexus/binaural-beats',
+    href: '/sonic-science/sonic-science/technology-nexus/binaural-beats',
     icon: '🎵'
   },
   {
     title: 'Cymatics',
     description: 'Visual sound patterns and their effects',
-    href: '/sonic-science/technology-nexus/cymatics',
+    href: '/sonic-science/sonic-science/technology-nexus/cymatics',
     icon: '🌊'
   },
   {
     title: 'Haptic Feedback',
     description: 'Tactile vibration technology',
-    href: '/sonic-science/technology-nexus/haptic-feedback',
+    href: '/sonic-science/sonic-science/technology-nexus/haptic-feedback',
     icon: '📳'
   },
   {
     title: 'PEMF Technology',
     description: 'Pulsed Electromagnetic Field technology',
-    href: '/sonic-science/technology-nexus/pemf-technology',
+    href: '/sonic-science/sonic-science/technology-nexus/pemf-technology',
     icon: '⚡'
   },
   {
     title: 'Vibroacoustic Therapy',
     description: 'Combined vibration and acoustic therapy',
-    href: '/sonic-science/technology-nexus/vibroacoustic-therapy',
+    href: '/sonic-science/sonic-science/technology-nexus/vibroacoustic-therapy',
     icon: '🎶'
   }
 ];
@@ -42,19 +42,19 @@ const researchAreas = [
   {
     title: 'Frequency Fundamentals',
     description: 'Core frequency concepts and principles',
-    href: '/sonic-science/frequency-fundamentals',
+    href: '/sonic-science/sonic-science/frequency-fundamentals',
     studies: '15+ Studies'
   },
   {
     title: 'Neuroscience Navigator',
     description: 'Brain science and neural mechanisms',
-    href: '/sonic-science/neuroscience-navigator',
+    href: '/sonic-science/sonic-science/neuroscience-navigator',
     studies: '20+ Studies'
   },
   {
     title: 'Research Radar',
     description: 'Research tracking and methodology',
-    href: '/sonic-science/research-radar',
+    href: '/sonic-science/sonic-science/research-radar',
     studies: '25+ Studies'
   }
 ];

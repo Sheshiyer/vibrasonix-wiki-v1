@@ -1,4 +1,4 @@
-<div style={{textAlign: "center"}}>
+<div style="text-align: center;">
   <h1>Transformation Journeys</h1>
   <p><em>Narrative-driven paths with progress visualization</em></p>
 </div>

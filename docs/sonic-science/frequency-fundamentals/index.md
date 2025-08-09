@@ -1,4 +1,4 @@
-<div style={{textAlign: "center"}}>
+<div style="text-align: center;">
   <h1>Frequency Fundamentals</h1>
   <p><em>Explore the science of sound frequencies and their effects on the brain and body</em></p>
 </div>
@@ -9,34 +9,34 @@ Welcome to the Frequency Fundamentals dashboard, your interactive guide to under
 
 ## 🧠 Brainwave Explorer
 
-<div className="interactive-dashboard">
-  <div className="frequency-slider">
+<InteractiveDashboard>
+  <FrequencySlider>
     <h3>Interactive Frequency Slider</h3>
     <p>Move the slider to explore different frequency ranges and their effects</p>
-    <div className="slider-visualization">
+    <SliderVisualization>
       {/* Interactive slider would be implemented here */}
       <p>0.5 Hz ────────────────────────────────────── 100 Hz</p>
       <p>Current selection: <strong>10 Hz</strong> (Alpha waves)</p>
-    </div>
-  </div>
+    </SliderVisualization>
+  </FrequencySlider>
   
-  <div className="brainwave-display">
+  <BrainwaveDisplay>
     <h3>Brainwave Visualization</h3>
-    <div className="wave-animation">
+    <WaveAnimation>
       {/* Animated wave visualization would appear here */}
       <p>Alpha wave pattern visualization</p>
       <p>Smooth, regular waves at 8-13 Hz frequency</p>
-    </div>
-    <div className="brain-activity-map">
+    </WaveAnimation>
+    <BrainActivityMap>
       {/* Brain activity map would appear here */}
       <p>Brain regions showing increased alpha activity</p>
-    </div>
-  </div>
-</div>
+    </BrainActivityMap>
+  </BrainwaveDisplay>
+</InteractiveDashboard>
 
 ## 📊 Brainwave Types
 
-<div className="brainwave-table">
+<BrainwaveTable>
   <table>
     <thead>
       <tr>
@@ -85,12 +85,12 @@ Welcome to the Frequency Fundamentals dashboard, your interactive guide to under
       </tr>
     </tbody>
   </table>
-</div>
+</BrainwaveTable>
 
 ## 🔄 Frequency Effects on Mind & Body
 
-<div className="effects-cards">
-  <div className="effect-card">
+<EffectsCards>
+  <EffectCard>
     <h3>Sleep Enhancement</h3>
     <p><strong>Primary frequency:</strong> Delta (0.5-4 Hz)</p>
     <p><strong>Research finding:</strong> 43% faster sleep onset when combined with gentle PEMF stimulation</p>
@@ -105,9 +105,9 @@ Welcome to the Frequency Fundamentals dashboard, your interactive guide to under
         <span className="metric-label">Reduction in night wakings</span>
       </div>
     </div>
-  </div>
+  </EffectCard>
   
-  <div className="effect-card">
+  <EffectCard>
     <h3>Focus Enhancement</h3>
     <p><strong>Primary frequency:</strong> Beta (13-30 Hz)</p>
     <p><strong>Research finding:</strong> 47% longer sustained attention compared to control conditions</p>
@@ -122,9 +122,9 @@ Welcome to the Frequency Fundamentals dashboard, your interactive guide to under
         <span className="metric-label">Reduction in distraction</span>
       </div>
     </div>
-  </div>
+  </EffectCard>
   
-  <div className="effect-card">
+  <EffectCard>
     <h3>Stress Reduction</h3>
     <p><strong>Primary frequency:</strong> Alpha (8-13 Hz)</p>
     <p><strong>Research finding:</strong> 62% faster stress response reduction compared to silence</p>
@@ -139,9 +139,9 @@ Welcome to the Frequency Fundamentals dashboard, your interactive guide to under
         <span className="metric-label">Improvement in HRV</span>
       </div>
     </div>
-  </div>
+  </EffectCard>
   
-  <div className="effect-card">
+  <EffectCard>
     <h3>Meditation Enhancement</h3>
     <p><strong>Primary frequency:</strong> Theta (4-8 Hz)</p>
     <p><strong>Research finding:</strong> 49% deeper meditation states as measured by EEG</p>
@@ -156,8 +156,8 @@ Welcome to the Frequency Fundamentals dashboard, your interactive guide to under
         <span className="metric-label">Enhanced meditation depth</span>
       </div>
     </div>
-  </div>
-</div>
+  </EffectCard>
+</EffectsCards>
 
 ## 🧪 Personalized Frequency Calculator
 
@@ -182,40 +182,40 @@ Welcome to the Frequency Fundamentals dashboard, your interactive guide to under
 
 ## 📚 Explore Further
 
-<div className="navigation-cards">
-  <a href="brainwave-types.md" className="nav-card">
+<NavigationCards>
+  <NavCard href="brainwave-types.md">
     <h3>Brainwave Types</h3>
     <p>Detailed explanation of each brainwave type and its effects</p>
-  </a>
+  </NavCard>
   
-  <a href="frequency-effects.md" className="nav-card">
+  <NavCard href="frequency-effects.md">
     <h3>⚡ Frequency Effects</h3>
     <p>How different frequencies affect mind and body systems</p>
-  </a>
+  </NavCard>
   
-  <a href="interactive-frequency-map.md" className="nav-card">
+  <NavCard href="interactive-frequency-map.md">
     <h3>Interactive Frequency Map</h3>
     <p>Visual and audio exploration of the frequency spectrum</p>
-  </a>
+  </NavCard>
   
-  <a href="brainwave-visualization-tool.md" className="nav-card">
+  <NavCard href="brainwave-visualization-tool.md">
     <h3>Brainwave Visualization</h3>
     <p>Interactive EEG patterns and brain activity maps</p>
-  </a>
+  </NavCard>
   
-  <a href="personalized-frequency-calculator.md" className="nav-card">
+  <NavCard href="personalized-frequency-calculator.md">
     <h3>🧮 Personalized Calculator</h3>
     <p>Quiz-based recommendation tool for optimal frequencies</p>
-  </a>
+  </NavCard>
   
-  <a href="frequency-faq.md" className="nav-card">
+  <NavCard href="frequency-faq.md">
     <h3>❓ Frequency FAQ</h3>
     <p>Common questions about sound frequencies and brainwaves</p>
-  </a>
-</div>
+  </NavCard>
+</NavigationCards>
 
-<div className="dashboard-footer">
+<DashboardFooter>
   <p>Last updated: March 22, 2025 | <a href="../index.md">Back to Sonic Science</a> | <a href="../../index.md">Back to Knowledge Hub</a></p>
-</div>
+</DashboardFooter>
 
 {/* Note: This dashboard layout would be enhanced with CSS and JavaScript in a real implementation */}

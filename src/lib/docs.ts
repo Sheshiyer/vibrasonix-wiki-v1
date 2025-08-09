@@ -1,9 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { compileMDX } from 'next-mdx-remote/rsc';
-import rehypeHighlight from 'rehype-highlight';
-import rehypeSlug from 'rehype-slug';
-import remarkGfm from 'remark-gfm';
+import React from 'react';
 
 const docsDirectory = path.join(process.cwd(), 'docs');
 
@@ -20,7 +17,7 @@ export interface DocMetadata {
 }
 
 export interface DocContent {
-  content: React.ReactElement;
+  content: string;
   metadata: DocMetadata;
   slug: string;
 }
@@ -81,24 +78,14 @@ function extractMetadata(content: string, filePath: string): DocMetadata {
   };
 }
 
-// Read and compile a single markdown file
+// Read and return raw markdown content
 export async function getDocContent(filePath: string): Promise<DocContent> {
   const fileContent = fs.readFileSync(filePath, 'utf8');
   const metadata = extractMetadata(fileContent, filePath);
   const slug = filePathToSlug(filePath);
   
-  const { content } = await compileMDX({
-    source: fileContent,
-    options: {
-      mdxOptions: {
-        rehypePlugins: [rehypeHighlight, rehypeSlug],
-        remarkPlugins: [remarkGfm],
-      },
-    },
-  });
-  
   return {
-    content,
+    content: fileContent,
     metadata,
     slug,
   };

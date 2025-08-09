@@ -105,8 +105,8 @@ export function CodeExample({
             )}
             {tags.length > 0 && (
               <div className="flex gap-2 flex-wrap">
-                {tags.map((tag, index) => (
-                  <Badge key={index} variant="secondary" className="text-xs">
+                {tags.map((tag) => (
+                  <Badge key={`${title}-${tag}`} variant="secondary" className="text-xs">
                     {tag}
                   </Badge>
                 ))}

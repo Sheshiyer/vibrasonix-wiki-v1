@@ -1,4 +1,4 @@
-<div style={{textAlign: "center"}}>
+<div style="text-align: center;">
   <h1>Experience Library</h1>
   <p><em>Curated collection of sound therapy experiences with interactive previews</em></p>
 </div>

@@ -1,4 +1,4 @@
-<div style={{textAlign: "center"}}>
+<div style="text-align: center;">
   <h1>About the Vibrasonix Knowledge Hub</h1>
   <p><em>A dashboard-driven wiki experience for sound therapy exploration</em></p>
 </div>
@@ -104,6 +104,6 @@ For questions, suggestions, or feedback about the Vibrasonix Knowledge Hub:
 
 ---
 
-<div style={{textAlign: "center"}}>
+<div style="text-align: center;">
   <p>Last updated: March 22, 2025 | <a href="index.md">Back to Knowledge Hub</a></p>
 </div>

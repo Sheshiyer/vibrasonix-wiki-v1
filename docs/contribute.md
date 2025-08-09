@@ -1,4 +1,4 @@
-<div style={{textAlign: "center"}}>
+<div style="text-align: center;">
   <h1>Contributing to the Vibrasonix Knowledge Hub</h1>
   <p><em>Help us build the world's most comprehensive sound therapy knowledge base</em></p>
 </div>
@@ -142,7 +142,7 @@ If you have questions about contributing to the Knowledge Hub:
 
 ---
 
-<div style={{textAlign: "center"}}>
+<div style="text-align: center;">
   <p>Thank you for helping build the Vibrasonix Knowledge Hub!</p>
   <p>Last updated: March 22, 2025 | <a href="index.md">Back to Knowledge Hub</a></p>
 </div>

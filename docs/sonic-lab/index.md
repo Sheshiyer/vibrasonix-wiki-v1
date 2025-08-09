@@ -1,4 +1,4 @@
-<div style={{textAlign: "center"}}>
+<div style="text-align: center;">
   <h1>Sonic Lab</h1>
   <p><em>Experimental zone for personalized exploration</em></p>
 </div>

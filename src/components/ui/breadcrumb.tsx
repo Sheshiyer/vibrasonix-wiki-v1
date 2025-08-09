@@ -46,7 +46,7 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
       
       {/* Breadcrumb items */}
       {items.map((item, index) => (
-        <div key={item.href} className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
+        <div key={`breadcrumb-${index}-${item.href}`} className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
           <Link href={item.href}>
             <motion.div
               className={cn(

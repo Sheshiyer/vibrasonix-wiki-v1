@@ -2,10 +2,11 @@ import { DashboardLayout } from '@/components/layout/dashboard-layout';
 import { GlassCard } from '@/components/ui/glass-card';
 import { getDocBySlug, getAllDocs } from '@/lib/docs';
 import { notFound } from 'next/navigation';
-import { MDXRemote } from 'next-mdx-remote/rsc';
 import { ArrowLeft, Clock, User, Calendar } from 'lucide-react';
 import Link from 'next/link';
 import { DocPageClient } from './doc-page-client';
+import { AlternativeContentRenderer } from '@/lib/simple-markdown';
+import { DocumentExportButton } from '@/components/ui/export-button';
 
 interface DocPageProps {
   params: {
@@ -48,9 +49,17 @@ export default async function DocPage({ params }: DocPageProps) {
           {/* Document Header */}
           <GlassCard className="mb-8" gradient="primary">
             <div className="space-y-4">
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                {metadata.title}
-              </h1>
+              <div className="flex items-start justify-between">
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                  {metadata.title}
+                </h1>
+                <DocumentExportButton
+                  documentSlug={requestedSlug}
+                  documentTitle={metadata.title}
+                  variant="dropdown"
+                  size="sm"
+                />
+              </div>
               
               {metadata.description && (
                 <p className="text-lg text-muted-foreground">
@@ -69,7 +78,7 @@ export default async function DocPage({ params }: DocPageProps) {
                 {metadata.date && (
                   <div className="flex items-center gap-1">
                     <Calendar className="w-4 h-4" />
-                    {new Date(metadata.date).toLocaleDateString()}
+                    {metadata.date}
                   </div>
                 )}
                 {metadata.readTime && (
@@ -83,9 +92,9 @@ export default async function DocPage({ params }: DocPageProps) {
               {/* Tags */}
               {metadata.tags && metadata.tags.length > 0 && (
                 <div className="flex flex-wrap gap-2">
-                  {metadata.tags.map((tag: string) => (
+                  {metadata.tags.map((tag: string, index: number) => (
                     <span 
-                      key={tag}
+                      key={`${requestedSlug}-tag-${index}-${tag}`}
                       className="text-xs bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm border border-white/30"
                     >
                       {tag}
@@ -98,7 +107,7 @@ export default async function DocPage({ params }: DocPageProps) {
 
           {/* Document Content */}
           <GlassCard className="prose prose-invert max-w-none" interactive={true}>
-            <MDXRemote source={content.toString()} />
+            <AlternativeContentRenderer content={content.toString()} />
           </GlassCard>
 
           {/* Client-side components */}
@@ -116,12 +125,22 @@ export default async function DocPage({ params }: DocPageProps) {
 function extractHeadings(content: string) {
   const headingRegex = /^(#{1,6})\s+(.+)$/gm;
   const headings = [];
+  const usedIds = new Set<string>();
   let match;
   
   while ((match = headingRegex.exec(content)) !== null) {
     const level = match[1].length;
     const text = match[2].trim();
-    const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    let baseId = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    
+    // Ensure unique IDs by adding a counter if needed
+    let id = baseId;
+    let counter = 1;
+    while (usedIds.has(id)) {
+      id = `${baseId}-${counter}`;
+      counter++;
+    }
+    usedIds.add(id);
     
     headings.push({
       id,

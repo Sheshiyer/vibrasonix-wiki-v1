@@ -44,7 +44,7 @@ import {
   ExportHistory,
   BulkExportOptions
 } from "@/types/export";
-import { exportService } from "@/lib/export-service";
+import { exportDocument, exportBulk } from "@/app/actions/export";
 // Note: Toast notifications would need to be implemented with available toast library
 
 interface ExportDialogProps {
@@ -116,21 +116,13 @@ export function ExportDialog({
   }, [isOpen]);
 
   const loadTemplates = async () => {
-    try {
-      const templates = await exportService.getExportTemplates();
-      setTemplates(templates);
-    } catch (error) {
-      console.error('Failed to load templates:', error);
-    }
+    // Templates functionality temporarily disabled
+    setTemplates([]);
   };
 
   const loadHistory = async () => {
-    try {
-      const history = await exportService.getExportHistory();
-      setExportHistory(history);
-    } catch (error) {
-      console.error('Failed to load history:', error);
-    }
+    // History functionality temporarily disabled
+    setExportHistory([]);
   };
 
   const handleExport = async () => {
@@ -155,14 +147,14 @@ export function ExportDialog({
           progress: 25,
           message: 'Processing documents...'
         });
-        result = await exportService.exportBulk(bulkOptions);
+        result = await exportBulk(bulkOptions);
       } else {
         setExportProgress({
           stage: 'processing',
           progress: 25,
           message: 'Processing document...'
         });
-        result = await exportService.exportDocument(documentSlug!, options);
+        result = await exportDocument(documentSlug!, options);
       }
 
       setExportProgress({
@@ -219,11 +211,13 @@ export function ExportDialog({
     }
 
     try {
-      const template = await exportService.saveExportTemplate({
+      // Template saving temporarily disabled
+      const template = {
+        id: Date.now().toString(),
         name: customTemplateName,
         description: `Custom template for ${options.format} export`,
         options: mode === 'bulk' ? bulkOptions : options
-      });
+      };
       
       setTemplates([...templates, template]);
       setCustomTemplateName('');
@@ -236,7 +230,7 @@ export function ExportDialog({
 
   const handleDeleteTemplate = async (templateId: string) => {
     try {
-      await exportService.deleteExportTemplate(templateId);
+      // Template deletion temporarily disabled
       setTemplates(templates.filter(t => t.id !== templateId));
       console.log('Template deleted');
     } catch (error) {

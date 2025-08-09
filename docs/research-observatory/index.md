@@ -1,4 +1,4 @@
-<div style={{textAlign: "center"}}>
+<div style="text-align: center;">
   <h1>Research Observatory</h1>
   <p><em>Living library of evidence with interactive exploration</em></p>
 </div>

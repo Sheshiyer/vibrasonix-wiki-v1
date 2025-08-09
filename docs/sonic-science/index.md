@@ -1,4 +1,4 @@
-<div style={{textAlign: 'center'}}>
+<div style="text-align: center;">
   <h1>Sonic Science Dashboard</h1>
   <p><em>Interactive exploration of the science behind sound therapy</em></p>
 </div>

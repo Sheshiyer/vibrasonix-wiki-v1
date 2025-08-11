@@ -178,7 +178,7 @@ export function SearchComponent({
                 <div className="text-xs text-white/60 px-3 py-2 font-medium">
                   Suggestions
                 </div>
-                {suggestions.map((suggestion, index) => (
+                {suggestions.map((suggestion) => (
                   <button
                     key={suggestion}
                     onClick={() => setQuery(suggestion)}

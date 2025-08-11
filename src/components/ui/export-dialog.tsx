@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -25,9 +25,9 @@ import {
   FileText,
   File,
   Globe,
-  Settings,
+
   Layout,
-  History,
+
   Loader2,
   CheckCircle,
   AlertCircle,
@@ -223,7 +223,7 @@ export function ExportDialog({
       setCustomTemplateName('');
       setShowSaveTemplate(false);
       console.log('Template saved successfully!');
-    } catch (error) {
+    } catch (_error) {
       console.error('Failed to save template');
     }
   };
@@ -233,7 +233,7 @@ export function ExportDialog({
       // Template deletion temporarily disabled
       setTemplates(templates.filter(t => t.id !== templateId));
       console.log('Template deleted');
-    } catch (error) {
+    } catch (_error) {
       console.error('Failed to delete template');
     }
   };

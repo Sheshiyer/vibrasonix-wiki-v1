@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useCallback } from 'react';
+
 import {
   BarChart3,
   Users,
@@ -9,13 +9,13 @@ import {
   Clock,
   Search,
   Download,
-  Filter,
+
   TrendingUp,
   Activity,
-  Calendar,
+
   RefreshCw,
 } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -23,7 +23,7 @@ import { GlassCard } from '@/components/ui/glass-card';
 import { useAnalytics } from '@/components/providers/analytics-provider';
 import {
   AnalyticsMetrics,
-  AnalyticsDashboardData,
+
   RealTimeStats,
 } from '@/types/analytics';
 import { cn } from '@/lib/utils';
@@ -70,7 +70,7 @@ export function AnalyticsDashboard({
     return { start, end };
   };
 
-  const loadMetrics = async () => {
+  const loadMetrics = useCallback(async () => {
     if (!isEnabled) return;
     
     try {
@@ -90,11 +90,11 @@ export function AnalyticsDashboard({
     } finally {
       setLoading(false);
     }
-  };
+  }, [isEnabled, timeRange, service, showRealTime]);
 
   useEffect(() => {
     loadMetrics();
-  }, [timeRange, isEnabled]);
+  }, [loadMetrics]);
 
   // Auto-refresh real-time stats
   useEffect(() => {

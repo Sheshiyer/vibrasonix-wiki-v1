@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ReactNode, useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Home, Search } from "lucide-react";
+import { Menu, X, Search } from "lucide-react";
 import { smoothScrollToTop } from "@/lib/smooth-scroll";
 import { SearchModal, useSearchModal } from "@/components/ui/search-wrapper";
 import { ThemeToggleCompact } from "@/components/ui/theme-toggle";

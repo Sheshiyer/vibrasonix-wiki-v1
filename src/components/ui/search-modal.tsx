@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { Search, Command } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { Dialog, DialogContent } from './dialog';
 import { SearchComponent } from './search';
 import { SearchableDoc } from '@/types/search';

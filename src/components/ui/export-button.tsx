@@ -11,7 +11,7 @@ import {
 import { ExportDialog } from "@/components/ui/export-dialog";
 import { Download, FileText, File, Globe, ChevronDown } from "lucide-react";
 import { useState } from "react";
-import { exportDocument, exportBulk } from "@/app/actions/export";
+import { exportDocument } from "@/app/actions/export";
 import { ExportOptions } from "@/types/export";
 
 interface ExportButtonProps {
@@ -214,7 +214,7 @@ export function BulkExportButton({
 
 export function QuickExportButtons({
   documentSlug,
-  documentTitle,
+  documentTitle: _documentTitle,
   className
 }: {
   documentSlug: string;

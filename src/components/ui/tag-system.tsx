@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Tag, 
@@ -8,14 +8,14 @@ import {
   X, 
   Hash, 
   Search, 
-  Filter, 
+ 
   TrendingUp, 
-  Clock, 
+ 
   Star,
   Edit,
   Trash2,
   MoreHorizontal,
-  Palette,
+
   Eye,
   EyeOff
 } from "lucide-react";
@@ -26,9 +26,9 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import { GlassCard } from "@/components/ui/glass-card";
 import { cn } from "@/lib/utils";
 

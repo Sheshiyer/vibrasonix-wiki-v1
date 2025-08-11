@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import React from 'react';
+
 
 const docsDirectory = path.join(process.cwd(), 'docs');
 

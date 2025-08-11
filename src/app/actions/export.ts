@@ -7,7 +7,7 @@ import {
   BulkExportOptions
 } from '@/types/export';
 
-import MarkdownIt from 'markdown-it';
+
 
 
 
@@ -223,7 +223,7 @@ function generateHTMLCoverPage(metadata: DocMetadata): string {
   `;
 }
 
-function generateHTMLTOC(doc: DocContent): string {
+function generateHTMLTOC(_doc: DocContent): string {
   return `
     <div class="table-of-contents">
       <h2>Table of Contents</h2>

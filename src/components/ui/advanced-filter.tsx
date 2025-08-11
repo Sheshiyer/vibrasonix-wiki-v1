@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Filter, X, ChevronDown, Search, Grid, List, Calendar, BarChart3, Bookmark, Settings } from "lucide-react";
+import { Filter, X, ChevronDown, Search, Grid, List, Calendar, BarChart3, Bookmark } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,7 +21,7 @@ import {
   SortOption,
   ViewMode,
   FilterPreset,
-  CategoryGroup
+
 } from "@/types/filters";
 
 interface AdvancedFilterProps {

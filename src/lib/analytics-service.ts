@@ -2,7 +2,7 @@
 
 import {
   AnalyticsEvent,
-  AnalyticsEventType,
+
   AnalyticsService,
   AnalyticsConfig,
   AnalyticsMetrics,

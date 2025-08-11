@@ -18,7 +18,7 @@ interface DocPageProps {
 export default async function DocPage({ params }: DocPageProps) {
   const { section, slug } = await params;
   const fullSlug = slug.join('/');
-  const requestedSlug = `${section}/${fullSlug}`;
+  const requestedSlug = fullSlug ? `${section}/${fullSlug}` : section;
   
   try {
     const doc = await getDocBySlug(requestedSlug);
@@ -159,7 +159,14 @@ export async function generateStaticParams() {
   
   for (const [section, docs] of Object.entries(allDocs)) {
     for (const doc of docs) {
-      const slugParts = doc.slug.split('/');
+      // Skip section index pages as they have their own dedicated routes
+      if (doc.slug === section) {
+        continue;
+      }
+      
+      // For nested pages, remove the section prefix and split the remaining path
+      const remainingSlug = doc.slug.replace(`${section}/`, '');
+      const slugParts = remainingSlug.split('/');
       params.push({
         section,
         slug: slugParts,

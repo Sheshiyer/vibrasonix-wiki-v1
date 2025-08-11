@@ -1,7 +1,7 @@
 "use client";
 
 import { FloatingToc } from '@/components/ui/floating-toc';
-import { motion } from 'framer-motion';
+
 
 interface DocPageClientProps {
   headings: {

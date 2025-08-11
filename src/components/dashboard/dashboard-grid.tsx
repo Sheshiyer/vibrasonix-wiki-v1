@@ -8,44 +8,32 @@ const sections = [
   {
     title: '🧠 Sonic Science',
     description: 'Interactive exploration of the science behind sound therapy',
-    href: '/sonic-science',
-    metrics: ['5 Technologies', '20+ Studies'],
-    color: 'from-primary/20 to-secondary/20'
+    href: '/sonic-science'
   },
   {
     title: '🛠️ Experience Library',
     description: 'Curated collection of experiences with interactive previews',
-    href: '/experience-library',
-    metrics: ['4 Categories', '30+ Protocols'],
-    color: 'from-secondary/20 to-accent/20'
+    href: '/experience-library'
   },
   {
     title: '🔮 Transformation Journeys',
     description: 'Narrative-driven paths with progress visualization',
-    href: '/transformation-journeys',
-    metrics: ['4 Journeys', '12+ Milestones'],
-    color: 'from-accent/20 to-primary/20'
+    href: '/transformation-journeys'
   },
   {
     title: '🔬 Research Observatory',
     description: 'Living library of evidence with interactive exploration',
-    href: '/research-observatory',
-    metrics: ['15+ Studies', '5 Data Dashboards'],
-    color: 'from-primary/20 to-accent/20'
+    href: '/research-observatory'
   },
   {
     title: '💫 Community Cosmos',
     description: 'Interactive social knowledge sharing space',
-    href: '/community-cosmos',
-    metrics: ['1000+ Members', '500+ Experiences'],
-    color: 'from-secondary/20 to-primary/20'
+    href: '/community-cosmos'
   },
   {
     title: '🧪 Sonic Lab',
     description: 'Experimental zone for personalized exploration',
-    href: '/sonic-lab',
-    metrics: ['Custom Protocols', 'Personal Experiments'],
-    color: 'from-accent/20 to-secondary/20'
+    href: '/sonic-lab'
   }
 ];
 
@@ -66,14 +54,7 @@ export function DashboardGrid() {
               gradient={index % 2 === 0 ? 'primary' : 'secondary'}
             >
               <h3 className="text-xl font-semibold mb-2">{section.title}</h3>
-              <p className="text-sm text-muted-foreground mb-4">{section.description}</p>
-              <div className="flex gap-2 flex-wrap">
-                {section.metrics.map((metric, metricIndex) => (
-                  <span key={`${section.title}-metric-${metricIndex}-${metric}`} className="text-xs bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm border border-white/30">
-                    {metric}
-                  </span>
-                ))}
-              </div>
+              <p className="text-sm text-muted-foreground">{section.description}</p>
             </GlassCard>
           </Link>
         </motion.div>

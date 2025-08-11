@@ -291,8 +291,8 @@ class ExportService implements IExportService {
 
   private generateMarkdownMetadata(metadata: any): string {
     return `---
-title: "${metadata.title}"
-${metadata.description ? `description: "${metadata.description}"\n` : ''}${metadata.author ? `author: "${metadata.author}"\n` : ''}${metadata.date ? `date: "${metadata.date}"\n` : ''}${metadata.tags ? `tags: [${metadata.tags.map((tag: string) => `"${tag}"`).join(', ')}]\n` : ''}---`;
+title: &quot;${metadata.title}&quot;
+${metadata.description ? `description: &quot;${metadata.description}&quot;\n` : ''}${metadata.author ? `author: &quot;${metadata.author}&quot;\n` : ''}${metadata.date ? `date: &quot;${metadata.date}&quot;\n` : ''}${metadata.tags ? `tags: [${metadata.tags.map((tag: string) => `&quot;${tag}&quot;`).join(', ')}]\n` : ''}---`;
   }
 
   private generateMarkdownCoverPage(metadata: any): string {

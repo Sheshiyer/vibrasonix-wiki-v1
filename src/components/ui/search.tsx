@@ -1,406 +1,253 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { Search, X, Clock, TrendingUp, FileText, ChevronRight } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Search, Loader2 } from 'lucide-react';
+import { searchDocs, getSearchSuggestions } from '@/lib/search';
+import { SearchableDoc, SearchResult } from '@/types/search';
 import { cn } from '@/lib/utils';
-import { Input } from './input';
-import { Button } from './button';
-import { Card } from './card';
 import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
-import { SearchResult, SearchableDoc } from '@/types/search';
-import { searchDocs, getSearchSuggestions } from '@/lib/search-client';
 
-interface SearchProps {
-  className?: string;
+interface SearchComponentProps {
   placeholder?: string;
-  section?: string;
   onResultSelect?: (result: SearchableDoc) => void;
   autoFocus?: boolean;
+  className?: string;
+  section?: string;
 }
 
-export function SearchComponent({ 
-  className, 
-  placeholder = "Search documentation...", 
-  section,
+export function SearchComponent({
+  placeholder = "Search...",
   onResultSelect,
-  autoFocus = false 
-}: SearchProps) {
+  autoFocus = false,
+  className,
+  section
+}: SearchComponentProps) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const [recentSearches, setRecentSearches] = useState<string[]>([]);
-  const [isIndexReady, setIsIndexReady] = useState(false);
-  
+  const [showResults, setShowResults] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
-  
-  // Initialize search index on mount
-  useEffect(() => {
-    setIsIndexReady(true);
-  }, []);
-  
-  // Load recent searches from localStorage
-  useEffect(() => {
-    const saved = localStorage.getItem('vibrasonix-recent-searches');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        // Filter out empty strings and ensure all items are valid strings
-        const validSearches = Array.isArray(parsed) 
-          ? parsed.filter(item => typeof item === 'string' && item.trim().length > 0)
-          : [];
-        setRecentSearches(validSearches);
-      } catch (error) {
-        // Clear invalid localStorage data
-        localStorage.removeItem('vibrasonix-recent-searches');
-        setRecentSearches([]);
-      }
-    }
-  }, []);
-  
-  // Auto-focus if requested
+
   useEffect(() => {
     if (autoFocus && inputRef.current) {
       inputRef.current.focus();
     }
   }, [autoFocus]);
-  
-  // Debounced search
-  const performSearch = useCallback(
-    debounce(async (searchQuery: string) => {
-      if (!searchQuery.trim() || !isIndexReady) {
-        setResults([]);
-        setSuggestions([]);
-        return;
-      }
-      
-      setIsLoading(true);
-      
-      try {
-          const searchResults = await searchDocs(searchQuery, { section, limit: 8 });
-          const searchSuggestions = await getSearchSuggestions(searchQuery, 5);
-          
-          setResults(searchResults);
-          setSuggestions(searchSuggestions);
-      } catch (error) {
-        console.error('Search error:', error);
-        setResults([]);
-        setSuggestions([]);
-      } finally {
-        setIsLoading(false);
-      }
-    }, 300),
-    [section, isIndexReady]
-  );
-  
+
   useEffect(() => {
-    performSearch(query);
-  }, [query, performSearch]);
-  
-  // Handle input change
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setQuery(value);
-    setSelectedIndex(-1);
-    setIsOpen(true);
-  };
-  
-  // Handle search submission
-  const handleSearch = (searchQuery: string) => {
-    const trimmedQuery = searchQuery.trim();
-    if (!trimmedQuery) return;
-    
-    // Add to recent searches - ensure no duplicates and no empty strings
-    const updated = [trimmedQuery, ...recentSearches.filter(s => s !== trimmedQuery && s.trim().length > 0)].slice(0, 5);
-    setRecentSearches(updated);
-    localStorage.setItem('vibrasonix-recent-searches', JSON.stringify(updated));
-    
-    setQuery(trimmedQuery);
-    setIsOpen(false);
-  };
-  
-  // Handle result selection
-  const handleResultSelect = (result: SearchableDoc) => {
-    handleSearch(result.title);
-    onResultSelect?.(result);
-    setIsOpen(false);
-  };
-  
-  // Handle keyboard navigation
+    const searchTimeout = setTimeout(async () => {
+      if (query.trim().length >= 2) {
+        setIsLoading(true);
+        try {
+          const searchResults = await searchDocs(query, { section, limit: 8 });
+          setResults(searchResults);
+          setShowResults(true);
+        } catch (error) {
+          console.error('Search failed:', error);
+          setResults([]);
+        } finally {
+          setIsLoading(false);
+        }
+      } else {
+        setResults([]);
+        setShowResults(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(searchTimeout);
+  }, [query, section]);
+
+  useEffect(() => {
+    const getSuggestions = async () => {
+      if (query.trim().length >= 1 && query.trim().length < 2) {
+        try {
+          const suggestionResults = await getSearchSuggestions(query);
+          setSuggestions(suggestionResults);
+        } catch (error) {
+          console.error('Failed to get suggestions:', error);
+          setSuggestions([]);
+        }
+      } else {
+        setSuggestions([]);
+      }
+    };
+
+    getSuggestions();
+  }, [query]);
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!isOpen) return;
-    
-    const totalItems = results.length + suggestions.length + (recentSearches.length > 0 ? recentSearches.length : 0);
-    
+    if (!showResults || results.length === 0) return;
+
     switch (e.key) {
       case 'ArrowDown':
         e.preventDefault();
-        setSelectedIndex(prev => (prev + 1) % totalItems);
+        setSelectedIndex(prev => 
+          prev < results.length - 1 ? prev + 1 : prev
+        );
         break;
       case 'ArrowUp':
         e.preventDefault();
-        setSelectedIndex(prev => prev <= 0 ? totalItems - 1 : prev - 1);
+        setSelectedIndex(prev => prev > 0 ? prev - 1 : -1);
         break;
       case 'Enter':
         e.preventDefault();
-        if (selectedIndex >= 0) {
-          if (selectedIndex < results.length) {
-            handleResultSelect(results[selectedIndex].item);
-          } else if (selectedIndex < results.length + suggestions.length) {
-            const suggestionIndex = selectedIndex - results.length;
-            handleSearch(suggestions[suggestionIndex]);
-          } else {
-            const recentIndex = selectedIndex - results.length - suggestions.length;
-            handleSearch(recentSearches[recentIndex]);
-          }
-        } else {
-          handleSearch(query);
+        if (selectedIndex >= 0 && results[selectedIndex]) {
+          handleResultClick(results[selectedIndex]);
         }
         break;
       case 'Escape':
-        setIsOpen(false);
-        inputRef.current?.blur();
+        setShowResults(false);
+        setSelectedIndex(-1);
         break;
     }
   };
-  
-  // Clear search
-  const clearSearch = () => {
+
+  const handleResultClick = (result: SearchResult) => {
+    if (onResultSelect) {
+      onResultSelect(result.item);
+    }
+    setShowResults(false);
     setQuery('');
-    setResults([]);
-    setSuggestions([]);
-    setIsOpen(false);
-    inputRef.current?.focus();
   };
-  
-  const popularSearches = ['binaural beats', 'meditation', 'sleep therapy', 'focus enhancement', 'anxiety relief'];
-  const showPopular = !query && recentSearches.length === 0;
-  const showRecent = !query && recentSearches.length > 0;
-  
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+    setSelectedIndex(-1);
+  };
+
+  const handleInputFocus = () => {
+    if (results.length > 0) {
+      setShowResults(true);
+    }
+  };
+
+  const handleInputBlur = () => {
+    // Delay hiding results to allow for result clicks
+    setTimeout(() => {
+      setShowResults(false);
+      setSelectedIndex(-1);
+    }, 200);
+  };
+
   return (
-    <div className={cn("relative w-full max-w-2xl", className)}>
-      {/* Search Input */}
+    <div className={cn("relative", className)}>
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-        <Input
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+        <input
           ref={inputRef}
           type="text"
-          placeholder={placeholder}
           value={query}
           onChange={handleInputChange}
-          onFocus={() => setIsOpen(true)}
           onKeyDown={handleKeyDown}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
+          placeholder={placeholder}
           className={cn(
-            "pl-10 pr-10 h-12 text-base",
-            "backdrop-blur-xl bg-white/10 border-white/20",
-            "focus:bg-white/20 focus:border-white/30",
-            "placeholder:text-white/60"
+            "w-full pl-10 pr-10 py-3 rounded-lg",
+            "bg-white/10 border border-white/20",
+            "text-white placeholder:text-white/50",
+            "focus:outline-none focus:ring-2 focus:ring-primary/50",
+            "transition-all duration-200"
           )}
-          disabled={!isIndexReady}
         />
-        
-        {/* Loading/Clear Button */}
-        <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-          {isLoading ? (
-            <div className="w-4 h-4 border-2 border-white/30 border-t-white/60 rounded-full animate-spin" />
-          ) : query ? (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={clearSearch}
-              className="w-6 h-6 hover:bg-white/20"
-            >
-              <X className="w-4 h-4" />
-            </Button>
-          ) : null}
-        </div>
+        {isLoading && (
+          <Loader2 className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground animate-spin" />
+        )}
       </div>
-      
-      {/* Search Results Dropdown */}
-      <AnimatePresence key="search-results-dropdown">
-        {isOpen && (isLoading || results.length > 0 || suggestions.length > 0 || showPopular || showRecent) && (
+
+      <AnimatePresence>
+        {showResults && (results.length > 0 || suggestions.length > 0) && (
           <motion.div
+            ref={resultsRef}
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
             className={cn(
               "absolute top-full left-0 right-0 mt-2 z-50",
-              "backdrop-blur-xl bg-white/10 border border-white/20",
-              "rounded-xl shadow-2xl overflow-hidden",
+              "bg-white/10 backdrop-blur-xl border border-white/20",
+              "rounded-lg shadow-2xl overflow-hidden",
               "max-h-96 overflow-y-auto"
             )}
-            ref={resultsRef}
           >
-            {/* Search Results */}
-            {results.length > 0 && (
+            {suggestions.length > 0 && query.length < 2 && (
               <div className="p-2">
-                <div className="text-xs font-medium text-white/60 px-3 py-2 flex items-center gap-2">
-                  <FileText className="w-3 h-3" />
-                  Results ({results.length})
-                </div>
-                {results.map((result, index) => (
-                  <Link
-                    key={result.item.slug}
-                    href={`/${result.item.slug}`}
-                    onClick={() => handleResultSelect(result.item)}
-                    className={cn(
-                      "block p-3 rounded-lg transition-colors",
-                      "hover:bg-white/20",
-                      selectedIndex === index && "bg-white/20"
-                    )}
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-medium text-sm text-white truncate">
-                          {result.item.title}
-                        </h4>
-                        {result.item.description && (
-                          <p className="text-xs text-white/70 mt-1 line-clamp-2">
-                            {result.item.description}
-                          </p>
-                        )}
-                        <div className="flex items-center gap-2 mt-2">
-                          <span className="text-xs px-2 py-1 rounded-full bg-white/20 text-white/80">
-                            {result.item.section.replace('-', ' ')}
-                          </span>
-                          {result.score && (
-                            <span className="text-xs text-white/50">
-                              {Math.round((1 - result.score) * 100)}% match
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <ChevronRight className="w-4 h-4 text-white/40 flex-shrink-0" />
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            )}
-            
-            {/* Suggestions */}
-            {suggestions.length > 0 && (
-              <div className="p-2 border-t border-white/10">
-                <div className="text-xs font-medium text-white/60 px-3 py-2">
+                <div className="text-xs text-white/60 px-3 py-2 font-medium">
                   Suggestions
                 </div>
-                {suggestions.map((suggestion, index) => {
-                  const suggestionIndex = results.length + index;
-                  return (
-                    <button
-                      key={`suggestion-${index}-${suggestion || 'empty'}-${Date.now()}`}
-                      onClick={() => handleSearch(suggestion)}
-                      className={cn(
-                        "w-full text-left p-3 rounded-lg transition-colors",
-                        "hover:bg-white/20 flex items-center gap-3",
-                        selectedIndex === suggestionIndex && "bg-white/20"
-                      )}
-                    >
-                      <Search className="w-4 h-4 text-white/40" />
-                      <span className="text-sm text-white">{suggestion}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-            
-            {/* Recent Searches */}
-            {showRecent && (
-              <div className="p-2 border-t border-white/10">
-                <div className="text-xs font-medium text-white/60 px-3 py-2 flex items-center gap-2">
-                  <Clock className="w-3 h-3" />
-                  Recent
-                </div>
-                {recentSearches.map((recent, index) => {
-                  const recentIndex = results.length + suggestions.length + index;
-                  return (
-                    <button
-                      key={`recent-${index}-${recent || 'empty'}-${recentIndex}`}
-                      onClick={() => handleSearch(recent)}
-                      className={cn(
-                        "w-full text-left p-3 rounded-lg transition-colors",
-                        "hover:bg-white/20 flex items-center gap-3",
-                        selectedIndex === recentIndex && "bg-white/20"
-                      )}
-                    >
-                      <Clock className="w-4 h-4 text-white/40" />
-                      <span className="text-sm text-white">{recent}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-            
-            {/* Popular Searches */}
-            {showPopular && (
-              <div className="p-2">
-                <div className="text-xs font-medium text-white/60 px-3 py-2 flex items-center gap-2">
-                  <TrendingUp className="w-3 h-3" />
-                  Popular
-                </div>
-                {popularSearches.map((popular, index) => (
+                {suggestions.map((suggestion, index) => (
                   <button
-                    key={`popular-${index}-${popular || 'empty'}-popular`}
-                    onClick={() => handleSearch(popular)}
-                    className={cn(
-                      "w-full text-left p-3 rounded-lg transition-colors",
-                      "hover:bg-white/20 flex items-center gap-3"
-                    )}
+                    key={suggestion}
+                    onClick={() => setQuery(suggestion)}
+                    className="w-full text-left px-3 py-2 text-sm text-white/80 hover:bg-white/10 rounded transition-colors"
                   >
-                    <TrendingUp className="w-4 h-4 text-white/40" />
-                    <span className="text-sm text-white">{popular}</span>
+                    {suggestion}
                   </button>
                 ))}
               </div>
             )}
-            
-            {/* No Results */}
-            {query && !isLoading && results.length === 0 && suggestions.length === 0 && (
-              <div className="p-6 text-center">
-                <Search className="w-8 h-8 text-white/40 mx-auto mb-2" />
-                <p className="text-sm text-white/60">No results found for "{query}"</p>
-                <p className="text-xs text-white/40 mt-1">Try different keywords or check spelling</p>
+
+            {results.length > 0 && (
+              <div className="p-2">
+                {query.length >= 2 && (
+                  <div className="text-xs text-white/60 px-3 py-2 font-medium">
+                    {results.length} result{results.length !== 1 ? 's' : ''}
+                  </div>
+                )}
+                {results.map((result, index) => (
+                  <motion.button
+                    key={`${result.item.slug}-${index}`}
+                    onClick={() => handleResultClick(result)}
+                    className={cn(
+                      "w-full text-left p-3 rounded-lg transition-all duration-200",
+                      "hover:bg-white/10 border border-transparent",
+                      selectedIndex === index && "bg-white/20 border-white/30"
+                    )}
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-medium text-white text-sm truncate">
+                          {result.item.title}
+                        </h4>
+                        <p className="text-xs text-white/60 mt-1 line-clamp-2">
+                          {result.item.description || result.item.content}
+                        </p>
+                        <div className="flex items-center gap-2 mt-2">
+                          <span className="text-xs text-white/40 bg-white/10 px-2 py-1 rounded">
+                            {result.item.section}
+                          </span>
+                          {result.item.subsection && (
+                            <span className="text-xs text-white/40">
+                              {result.item.subsection}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="text-xs text-white/40 font-mono">
+                        {result.score ? Math.round(result.score * 100) : 0}%
+                      </div>
+                    </div>
+                  </motion.button>
+                ))}
+              </div>
+            )}
+
+            {query.length >= 2 && results.length === 0 && !isLoading && (
+              <div className="p-6 text-center text-white/60">
+                <Search className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                <p className="text-sm">No results found for &quot;{query}&quot;</p>
+                <p className="text-xs mt-1 opacity-75">
+                  Try different keywords or check spelling
+                </p>
               </div>
             )}
           </motion.div>
         )}
       </AnimatePresence>
-      
-      {/* Click outside to close */}
-      {isOpen && (
-        <div 
-          className="fixed inset-0 z-40" 
-          onClick={() => setIsOpen(false)}
-        />
-      )}
     </div>
   );
-}
-
-// Debounce utility
-function debounce<T extends (...args: any[]) => any>(
-  func: T,
-  wait: number
-): (...args: Parameters<T>) => void {
-  let timeout: NodeJS.Timeout;
-  return (...args: Parameters<T>) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func(...args), wait);
-  };
-}
-
-// Export search hook for programmatic use
-export function useSearch() {
-  const [isIndexReady, setIsIndexReady] = useState(true);
-  
-  const search = useCallback(async (query: string, options?: any) => {
-      if (!isIndexReady) return [];
-      return await searchDocs(query, options);
-    }, [isIndexReady]);
-  
-  return { search, isIndexReady };
 }

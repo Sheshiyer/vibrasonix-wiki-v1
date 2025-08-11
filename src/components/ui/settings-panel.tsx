@@ -151,7 +151,7 @@ export function SettingsPanel() {
 
                 <div>
                   <Label>Favorite Topics</Label>
-                  <p className="text-sm text-muted-foreground mb-2">Topics you're most interested in</p>
+                  <p className="text-sm text-muted-foreground mb-2">Topics you&apos;re most interested in</p>
                   <div className="flex flex-wrap gap-2">
                     {['Binaural Beats', 'PEMF', 'Meditation', 'Sleep', 'Focus', 'Stress Relief'].map((topic) => (
                       <Badge

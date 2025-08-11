@@ -110,7 +110,7 @@ export function TagSystem({
   const [newTag, setNewTag] = useState<Partial<TagData>>({});
 
   const filteredAndSortedTags = useMemo(() => {
-    let filtered = tags.filter(tag => {
+    const filtered = tags.filter(tag => {
       const matchesSearch = tag.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            tag.description?.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCategory = selectedCategory === 'all' || tag.category === selectedCategory;
@@ -413,7 +413,7 @@ export function TagSystem({
             className="w-full"
           >
             <Plus className="h-4 w-4 mr-2" />
-            Create tag "{searchTerm}"
+            Create tag &quot;{searchTerm}&quot;
           </Button>
         )}
       </div>

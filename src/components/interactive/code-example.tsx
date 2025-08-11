@@ -224,7 +224,7 @@ export function CodeExampleShowcase({
   description,
   examples
 }: CodeExampleShowcaseProps) {
-  const [selectedExample, setSelectedExample] = useState(0);
+  const [_selectedExample, _setSelectedExample] = useState(0);
   const [filter, setFilter] = useState<string>('all');
 
   const filteredExamples = examples.filter(example => 

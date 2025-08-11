@@ -70,9 +70,10 @@ export async function exportDocToPDF(
       container.appendChild(description);
     }
 
-    // Add document content (convert React element to HTML)
+    // Add document content (convert markdown to HTML)
     const contentDiv = document.createElement('div');
-    contentDiv.innerHTML = await reactElementToHTML(doc.content);
+    const sanitizedContent = sanitizeMarkdown(doc.content);
+    contentDiv.innerHTML = md.render(sanitizedContent);
     container.appendChild(contentDiv);
 
     document.body.appendChild(container);
@@ -151,10 +152,8 @@ export async function exportDocToMarkdown(
 
     markdown += '---\n\n';
 
-    // Convert React content to markdown
-    const htmlContent = await reactElementToHTML(doc.content);
-    const convertedMarkdown = htmlToMarkdown(htmlContent);
-    markdown += convertedMarkdown;
+    // Add the markdown content directly
+    markdown += doc.content;
 
     const filename = `${doc.metadata.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.md`;
     const blob = new Blob([markdown], { type: 'text/markdown' });
@@ -224,7 +223,8 @@ async function exportMultipleDocsToPDF(
     }
 
     // Add content (simplified for multiple docs)
-    const htmlContent = await reactElementToHTML(doc.content);
+    const sanitizedContent = sanitizeMarkdown(doc.content);
+    const htmlContent = md.render(sanitizedContent);
     const textContent = htmlToText(htmlContent);
     
     pdf.setFontSize(10);
@@ -258,9 +258,8 @@ async function exportMultipleDocsToMarkdown(
       markdown += `${doc.metadata.description}\n\n`;
     }
 
-    const htmlContent = await reactElementToHTML(doc.content);
-    const convertedMarkdown = htmlToMarkdown(htmlContent);
-    markdown += convertedMarkdown;
+    // Add the markdown content directly
+    markdown += doc.content;
     markdown += '\n\n---\n\n';
   }
 
@@ -274,15 +273,12 @@ async function exportMultipleDocsToMarkdown(
   };
 }
 
-// Helper function to convert React element to HTML string
-async function reactElementToHTML(element: React.ReactElement): Promise<string> {
-  // This is a simplified conversion - in a real implementation,
-  // you might want to use a more sophisticated React-to-HTML converter
-  const container = document.createElement('div');
-  
-  // For now, we'll extract text content and basic structure
-  // This would need to be enhanced for full React component rendering
-  return element.toString() || '';
+// Helper function to sanitize markdown content for HTML rendering
+function sanitizeMarkdown(content: string): string {
+  // Basic sanitization - remove any potentially harmful content
+  return content.replace(/<script[^>]*>.*?<\/script>/gi, '')
+               .replace(/<iframe[^>]*>.*?<\/iframe>/gi, '')
+               .replace(/javascript:/gi, '');
 }
 
 // Helper function to convert HTML to markdown
@@ -300,8 +296,8 @@ function htmlToMarkdown(html: string): string {
     .replace(/<em[^>]*>(.*?)<\/em>/gi, '*$1*')
     .replace(/<code[^>]*>(.*?)<\/code>/gi, '`$1`')
     .replace(/<pre[^>]*>(.*?)<\/pre>/gi, '```\n$1\n```\n\n')
-    .replace(/<a[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/gi, '[$2]($1)')
-    .replace(/<img[^>]*src="([^"]*)"[^>]*alt="([^"]*)"/gi, '![$2]($1)')
+    .replace(/<a[^>]*href=&quot;([^&quot;]*)&quot;[^>]*>(.*?)<\/a>/gi, '[$2]($1)')
+    .replace(/<img[^>]*src=&quot;([^&quot;]*)&quot;[^>]*alt=&quot;([^&quot;]*)"/gi, '![$2]($1)')
     .replace(/<br\s*\/?>/gi, '\n')
     .replace(/<[^>]*>/g, '') // Remove remaining HTML tags
     .replace(/\n\s*\n\s*\n/g, '\n\n') // Clean up multiple newlines

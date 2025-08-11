@@ -4,17 +4,12 @@ import { getDocBySlug, getAllDocs, DocContent, DocMetadata } from '@/lib/docs';
 import {
   ExportOptions,
   ExportResult,
-  ExportMetadata,
-  BulkExportOptions,
-  ExportTemplate,
-  ExportHistory,
-  ExportStats
+  BulkExportOptions
 } from '@/types/export';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+
 import MarkdownIt from 'markdown-it';
 
-const md = new MarkdownIt();
+
 
 // Server action for exporting a single document
 export async function exportDocument(slug: string, options: ExportOptions): Promise<ExportResult> {
@@ -72,7 +67,7 @@ export async function exportBulk(options: BulkExportOptions): Promise<ExportResu
 }
 
 // Helper functions
-async function exportToPDF(doc: DocContent, options: ExportOptions, filename: string): Promise<ExportResult> {
+async function exportToPDF(_doc: DocContent, _options: ExportOptions, filename: string): Promise<ExportResult> {
   // For now, return a mock result since PDF generation requires browser APIs
   // In a real implementation, you'd use a server-side PDF library like Puppeteer
   return {
@@ -205,7 +200,7 @@ function generateMarkdownCoverPage(metadata: DocMetadata): string {
 `;
 }
 
-function generateMarkdownTOC(doc: DocContent): string {
+function generateMarkdownTOC(_doc: DocContent): string {
   // Simple TOC generation - in a real implementation, you'd parse the content
   return `## Table of Contents
 
@@ -221,8 +216,8 @@ function generateHTMLCoverPage(metadata: DocMetadata): string {
   return `
     <div class="cover-page">
       <h1>${metadata.title}</h1>
-      <p><strong>Author:</strong> ${metadata.author || 'Unknown'}</p>
-      <p><strong>Date:</strong> ${metadata.date || new Date().toISOString().split('T')[0]}</p>
+      <p><strong>Author:</strong> ${metadata.author || "Unknown"}</p>
+       <p><strong>Date:</strong> ${metadata.date || new Date().toISOString().split("T")[0]}</p>
     </div>
     <hr>
   `;
@@ -241,7 +236,7 @@ function generateHTMLTOC(doc: DocContent): string {
   `;
 }
 
-function extractMarkdownContent(doc: DocContent, options: ExportOptions): string {
+function extractMarkdownContent(doc: DocContent, _options: ExportOptions): string {
   // In a real implementation, you'd convert the React element back to markdown
   // For now, return a placeholder
   return `# ${doc.metadata.title}
@@ -249,14 +244,14 @@ function extractMarkdownContent(doc: DocContent, options: ExportOptions): string
 ${doc.metadata.description || 'Content goes here...'}`;
 }
 
-function extractHTMLContent(doc: DocContent, options: ExportOptions): string {
+function extractHTMLContent(doc: DocContent, _options: ExportOptions): string {
   // In a real implementation, you'd render the React element to HTML
   // For now, return a placeholder
-  return `<h1>${doc.metadata.title}</h1><p>${doc.metadata.description || 'Content goes here...'}</p>`;
+  return `<h1>${doc.metadata.title}</h1><p>${doc.metadata.description || "Content goes here..."}</p>`;
 }
 
-async function exportCombined(docs: DocContent[], options: BulkExportOptions): Promise<ExportResult> {
-  const filename = `combined-export.${options.format}`;
+async function exportCombined(_docs: DocContent[], _options: BulkExportOptions): Promise<ExportResult> {
+  const filename = `combined-export.${_options.format}`;
   
   // Combine all documents into a single export
   // Implementation would depend on the format
@@ -269,7 +264,7 @@ async function exportCombined(docs: DocContent[], options: BulkExportOptions): P
   };
 }
 
-async function exportSeparate(docs: DocContent[], options: BulkExportOptions): Promise<ExportResult> {
+async function exportSeparate(_docs: DocContent[], _options: BulkExportOptions): Promise<ExportResult> {
   const filename = `bulk-export-${Date.now()}.zip`;
   
   // Create separate files for each document and zip them

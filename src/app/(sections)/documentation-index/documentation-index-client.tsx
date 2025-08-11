@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Filter, Grid, List, Calendar, BarChart3, BookOpen, Clock, User, Tag, Settings } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Calendar, BookOpen, Clock, User, Tag, Settings } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 import { GlassCard } from "@/components/ui/glass-card";
 import { AdvancedFilter } from "@/components/ui/advanced-filter";
 import { CategoryManager } from "@/components/ui/category-manager";
@@ -17,8 +17,7 @@ import {
   FilterCategory,
   FilterState,
   SortOption,
-  ViewMode,
-  TagHierarchy
+  ViewMode
 } from "@/types/filters";
 
 interface DocItem {
@@ -58,7 +57,7 @@ export function DocumentationIndexClient({ docs }: DocumentationIndexClientProps
   const [selectedSort, setSelectedSort] = useState<SortOption>({ value: 'relevance', label: 'Relevance', direction: 'desc' });
   const [selectedViewMode, setSelectedViewMode] = useState<ViewMode>({ value: 'grid', label: 'Grid', icon: 'Grid' });
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+
   const [showCategoryManager, setShowCategoryManager] = useState(false);
   const [showTagSystem, setShowTagSystem] = useState(false);
 
@@ -146,7 +145,7 @@ export function DocumentationIndexClient({ docs }: DocumentationIndexClientProps
   }, [docs]);
 
   const filteredAndSortedDocs = useMemo(() => {
-    let filtered = docs.filter(doc => {
+    const filtered = docs.filter(doc => {
       // Apply filters
       if (filters.section && doc.section !== filters.section) return false;
       if (filters.difficulty && doc.difficulty !== filters.difficulty) return false;
@@ -366,11 +365,11 @@ export function DocumentationIndexClient({ docs }: DocumentationIndexClientProps
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-sm text-muted-foreground">
-            {filteredAndSortedDocs.length} document{filteredAndSortedDocs.length !== 1 ? 's' : ''} found
+            {filteredAndSortedDocs.length} document{filteredAndSortedDocs.length !== 1 ? `s` : ``} found
           </span>
           {Object.keys(filters).length > 0 && (
             <Badge variant="secondary">
-              {Object.keys(filters).length} filter{Object.keys(filters).length !== 1 ? 's' : ''} active
+              {Object.keys(filters).length} filter{Object.keys(filters).length !== 1 ? `s` : ``} active
             </Badge>
           )}
         </div>

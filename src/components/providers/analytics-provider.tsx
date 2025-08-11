@@ -24,7 +24,7 @@ export function AnalyticsProvider({
 }: AnalyticsProviderProps) {
   const pathname = usePathname();
   const [sessionId, setSessionId] = useState<string>('');
-  const [userId, setUserId] = useState<string | undefined>();
+  const [userId, _setUserId] = useState<string | undefined>();
   const [isEnabled, setIsEnabled] = useState(true);
 
   // Initialize session

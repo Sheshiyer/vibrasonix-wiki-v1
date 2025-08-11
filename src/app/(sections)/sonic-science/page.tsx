@@ -9,31 +9,31 @@ const technologies = [
   {
     title: 'Binaural Beats',
     description: 'Audio frequency entrainment technology',
-    href: '/sonic-science/sonic-science/technology-nexus/binaural-beats',
+    href: '/sonic-science/technology-nexus/binaural-beats',
     icon: '🎵'
   },
   {
     title: 'Cymatics',
     description: 'Visual sound patterns and their effects',
-    href: '/sonic-science/sonic-science/technology-nexus/cymatics',
+    href: '/sonic-science/technology-nexus/cymatics',
     icon: '🌊'
   },
   {
     title: 'Haptic Feedback',
     description: 'Tactile vibration technology',
-    href: '/sonic-science/sonic-science/technology-nexus/haptic-feedback',
+    href: '/sonic-science/technology-nexus/haptic-feedback',
     icon: '📳'
   },
   {
     title: 'PEMF Technology',
     description: 'Pulsed Electromagnetic Field technology',
-    href: '/sonic-science/sonic-science/technology-nexus/pemf-technology',
+    href: '/sonic-science/technology-nexus/pemf-technology',
     icon: '⚡'
   },
   {
     title: 'Vibroacoustic Therapy',
     description: 'Combined vibration and acoustic therapy',
-    href: '/sonic-science/sonic-science/technology-nexus/vibroacoustic-therapy',
+    href: '/sonic-science/technology-nexus/vibroacoustic-therapy',
     icon: '🎶'
   }
 ];
@@ -42,19 +42,19 @@ const researchAreas = [
   {
     title: 'Frequency Fundamentals',
     description: 'Core frequency concepts and principles',
-    href: '/sonic-science/sonic-science/frequency-fundamentals',
+    href: '/sonic-science/frequency-fundamentals',
     studies: '15+ Studies'
   },
   {
     title: 'Neuroscience Navigator',
     description: 'Brain science and neural mechanisms',
-    href: '/sonic-science/sonic-science/neuroscience-navigator',
+    href: '/sonic-science/neuroscience-navigator',
     studies: '20+ Studies'
   },
   {
     title: 'Research Radar',
     description: 'Research tracking and methodology',
-    href: '/sonic-science/sonic-science/research-radar',
+    href: '/sonic-science/research-radar',
     studies: '25+ Studies'
   }
 ];
@@ -84,7 +84,7 @@ export default async function SonicSciencePage() {
                 Documentation & Research
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {docs.map((doc, index) => (
+                {docs.map((doc) => (
                   <div key={doc.slug}>
                     <Link href={`/sonic-science/${doc.slug}`}>
                       <Card className="h-full hover:shadow-lg transition-all duration-300 bg-white/5 border-white/20 backdrop-blur-sm">
@@ -121,7 +121,7 @@ export default async function SonicSciencePage() {
             <GlassCard interactive={true} gradient="secondary">
               <h2 className="text-2xl font-semibold mb-4">🛠️ Technology Nexus</h2>
               <div className="space-y-4">
-                {technologies.map((tech, index) => (
+                {technologies.map((tech) => (
                   <div key={tech.href}>
                     <Link href={tech.href}>
                       <Card className="bg-white/5 border-white/20 hover:bg-white/10 transition-all duration-300">
@@ -149,7 +149,7 @@ export default async function SonicSciencePage() {
             <GlassCard interactive={true} gradient="primary">
               <h2 className="text-2xl font-semibold mb-4">🔬 Research Areas</h2>
               <div className="space-y-4">
-                {researchAreas.map((area, index) => (
+                {researchAreas.map((area) => (
                   <div key={area.href}>
                     <Link href={area.href}>
                       <Card className="bg-white/5 border-white/20 hover:bg-white/10 transition-all duration-300">

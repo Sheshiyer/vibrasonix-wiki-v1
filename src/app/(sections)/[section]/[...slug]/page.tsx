@@ -9,10 +9,10 @@ import { AlternativeContentRenderer } from '@/lib/simple-markdown';
 import { DocumentExportButton } from '@/components/ui/export-button';
 
 interface DocPageProps {
-  params: {
+  params: Promise<{
     section: string;
     slug: string[];
-  };
+  }>;
 }
 
 export default async function DocPage({ params }: DocPageProps) {
@@ -131,7 +131,7 @@ function extractHeadings(content: string) {
   while ((match = headingRegex.exec(content)) !== null) {
     const level = match[1].length;
     const text = match[2].trim();
-    let baseId = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    const baseId = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
     
     // Ensure unique IDs by adding a counter if needed
     let id = baseId;

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllDocs } from '@/lib/docs';
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: Request) {
   try {
     const allDocsRecord = await getAllDocs();
     const allDocs = Object.values(allDocsRecord).flat();

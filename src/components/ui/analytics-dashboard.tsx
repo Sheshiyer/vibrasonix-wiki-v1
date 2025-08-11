@@ -352,7 +352,7 @@ export function AnalyticsDashboard({
                 {metrics.topSearchQueries.slice(0, 5).map((search, index) => (
                   <div key={index} className="flex items-center justify-between">
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium truncate">"{search.query}"</p>
+                      <p className="font-medium truncate">&quot;{search.query}&quot;</p>
                       <p className="text-sm text-muted-foreground">
                         {Math.round(search.averageResultsCount)} avg results
                       </p>

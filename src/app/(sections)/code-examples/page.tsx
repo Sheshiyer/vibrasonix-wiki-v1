@@ -1,10 +1,9 @@
 "use client";
 
 import { DashboardLayout } from '@/components/layout/dashboard-layout';
-import { CodeExample, CodeExampleShowcase } from '@/components/interactive/code-example';
+import { CodeExampleShowcase } from '@/components/interactive/code-example';
 import { FrequencyExplorer } from '@/components/interactive/frequency-explorer';
 import { GlassCard } from '@/components/ui/glass-card';
-import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { useState } from 'react';
 

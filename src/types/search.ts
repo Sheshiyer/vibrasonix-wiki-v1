@@ -11,7 +11,13 @@ export interface SearchableDoc {
 export interface SearchResult {
   item: SearchableDoc;
   score?: number;
-  matches?: any[];
+  matches?: SearchMatch[];
+}
+
+export interface SearchMatch {
+  field: string;
+  value: string;
+  indices: [number, number][];
 }
 
 export interface SearchStats {
